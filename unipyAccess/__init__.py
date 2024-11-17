@@ -1,1 +1,5 @@
-from .main import UnipyAccess
+from .api_client import UnipyAccess
+
+__all__ = [
+    'UnipyAccess'
+]
