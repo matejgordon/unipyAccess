@@ -26,6 +26,7 @@ class HardwareManager:
             "wave": "wave",
             "mobile_button": "bt_button",
             "mobile_tap": "bt_tap",
+            "pin": "pin_code",
         }
 
         for method, key in methods_map.items():
