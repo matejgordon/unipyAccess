@@ -9,6 +9,10 @@ class HardwareManager:
         endpoint = "/proxy/access/api/v2/devices"
         return self.api_client.get(endpoint)
     
+    def get_device(self, device_id):
+        endpoint = f"/proxy/access/api/v2/device/{device_id}"
+        return self.api_client.get(endpoint)
+
     def get_device_capabilities(self, device_id):
         device_capabilities = self.get_device(device_id)['data']['capabilities']
         return device_capabilities
@@ -16,10 +20,6 @@ class HardwareManager:
     def get_device_model(self, device_id):
         device_model = self.get_device(device_id)['data']['device_type']
         return device_model
-
-    def get_device(self, device_id):
-        endpoint = f"/proxy/access/api/v2/device/{device_id}"
-        return self.api_client.get(endpoint)
     
     def restart_device(self, device_id):
         endpoint = f"/proxy/access/api/v2/device/{device_id}/restart"
