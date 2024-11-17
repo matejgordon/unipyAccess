@@ -13,180 +13,38 @@
 > [!WARNING]  
 > 🚧 This project is under active development, and breaking changes are expected in upcoming releases.
 
-## Features
 
-- Authenticate with Unifi Access using admin credentials.
-- Retrieve, create, activate, deactivate, and delete user accounts.
-- Update user group assignments.
+# NEW DOCUMENTATION WIP
 
-## Installation
-
-Install the package via `pip`:
-
-```bash
-pip install unipyaccess
 ```
+unipy = UnipyAccess(base_url=os.getenv('UNIFI_CONTROLLER_ADDRESS'),username=os.getenv("UNIFI_LOGIN"),password=os.getenv('UNIFI_PASSWORD'), verify=os.getenv('VERIFY_SSL'))
 
-## Requirements
+#Features
+users = unipy.users.get_users()
 
-- Python 3.x
-- `requests` library
+new_user = {
+    "first_name": "Python",
+    "last_name": "Test",
+    "PersonId": 98765,
+}
 
-Install the requirements with:
+unipy.users.create_user(new_user)
+unipy.users.deactivate_user(uuid)
+unipy.users.activate_user(uuid)
+unipy.users.set_user_group(uuid, group_uuid)
+unipy.users.delete_user(uuid)
 
-```bash
-pip install requests
+unipy.hardware.get_devices()
+unipy.hardware.get_device(device_id)
+unipy.hardware.set_access_method(device_id,["pin", "nfc", "mobile_tap", "mobile_button"])
+unipy.hardware.set_doorbell_trigger(device_id, "tap")
+unipy.hardware.set_status_light(device_id, "on")
+unipy.hardware.set_display_brightness(device_id, 50)
+unipy.hardware.set_status_sound("f4e2c6d3085d", 30) #For models other than UA G2 Pro use "on" or "off"
+unipy.hardware.get_device_capabilities(device_id)
+unipy.hardware.get_device_model(device_id)
+unipy.hardware.restart_device(device_id)
 ```
-
-## Environment Setup
-
-Store your configuration details in a `.env` file:
-
-```bash
-UNIFI_CONTROLLER_ADDRESS=https://unifi-controller.local
-UNIFI_LOGIN=admin
-UNIFI_PASSWORD=password123
-VERIFY_SSL=False
-```
-
-## Usage
-
-Import `unipyaccess` and use it in your Python script:
-
-```python
-from unipyaccess import UnipyAccess
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-# Initialize the UnipyAccess API client
-unifiApi = UnipyAccess(
-    base_url=os.getenv('UNIFI_CONTROLLER_ADDRESS'),
-    username=os.getenv('UNIFI_LOGIN'),
-    password=os.getenv('UNIFI_PASSWORD'),
-    verify=os.getenv('VERIFY_SSL')
-)
-
-# Example: Create a new user
-users = [
-    {
-        "first_name": "John",
-        "last_name": "Doe",
-        "PersonId": 124,
-        "group_ids": ["bc1bf76d-5d2a-4a90-ae50-6aca02bccc63"]
-    }
-]
-unifiApi.create_unifi_users(users)
-```
-
-## Methods
-
-### 1. `get_unifi_users()`
-Fetches the list of users from Unifi Access.
-
-**Usage:**
-
-```python
-users = unifiApi.get_unifi_users()
-print(users)
-```
-
-### 2. `create_unifi_users(users)`
-Creates new users.
-
-**Parameters:**
-- `users` (list): List of user dictionaries containing:
-  - `first_name` (str): User's first name.
-  - `last_name` (str): User's last name.
-  - `PersonId` (str): Optional employee number.
-  - `group_ids` (list): Optional list of group IDs.
-
-**Usage:**
-
-```python
-users = [
-    {"first_name": "Jane", "last_name": "Doe", "PersonId": "789", "group_ids": ["group-123"]}
-]
-unifiApi.create_unifi_users(users)
-```
-
-### 3. `deactivate_unifi_users(users)`
-Deactivates users.
-
-**Usage:**
-
-```python
-users = [{"id": "user-123"}]
-unifiApi.deactivate_unifi_users(users)
-```
-
-### 4. `activate_unifi_users(users)`
-Activates users.
-
-**Usage:**
-
-```python
-users = [{"id": "user-123"}]
-unifiApi.activate_unifi_users(users)
-```
-
-### 5. `delete_unifi_users(users)`
-Deletes users.
-
-**Usage:**
-
-```python
-users = [{"id": "user-123"}]
-unifiApi.delete_unifi_users(users)
-```
-
-### 6. `set_users_group(users)`
-Updates user group assignments.
-
-**Usage:**
-
-```python
-users = [{"id": "user-123", "group": "group-456"}]
-unifiApi.set_users_group(users)
-```
-
-## Example Code
-
-```python
-from unipyaccess import UnipyAccess
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-unifiApi = UnipyAccess(
-    base_url=os.getenv('UNIFI_CONTROLLER_ADDRESS'),
-    username=os.getenv('UNIFI_LOGIN'),
-    password=os.getenv('UNIFI_PASSWORD'),
-    verify=os.getenv('VERIFY_SSL')
-)
-
-# Retrieve users
-print(unifiApi.get_unifi_users())
-
-# Create a user
-new_user = [{"first_name": "Alice", "last_name": "Smith", "PersonId": "125"}]
-unifiApi.create_unifi_users(new_user)
-
-# Activate a user
-unifiApi.activate_unifi_users([{"id": "user-123"}])
-
-# Deactivate a user
-unifiApi.deactivate_unifi_users([{"id": "user-123"}])
-
-# Delete a user
-unifiApi.delete_unifi_users([{"id": "user-123"}])
-
-# Update user group
-unifiApi.set_users_group([{"id": "user-123", "group": "group-789"}])
-```
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
