@@ -10,7 +10,7 @@ class UnipyAccess:
         self.base_url = base_url
         self.username = username
         self.password = password
-        self.verify = False
+        self.verify = verify
         self.session = requests.Session()
         self.csrf_token = None
         self._login()
